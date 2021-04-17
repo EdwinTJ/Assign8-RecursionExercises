@@ -58,4 +58,106 @@ public class Recursion {
         System.out.printf("There are %d organisms in the image.\n", howMany);
 
     }
+
+    public static boolean isWordSymmetric(String[] words, int start, int end){
+        if(start>=end){
+            return true;
+        }
+        else{
+            if(words[start].equalsIgnoreCase(words[end])){
+                return isWordSymmetric(words,start+1,end-1);
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
+
+    public static long arraySum(int[] data, int position){
+        if(position < data.length && position >= 0) {
+            if (data.length - 1 == position) {
+                return data[position];
+            } else {
+                return data[position] + arraySum(data, position + 1);
+            }
+        }
+        else{
+            return 0;
+        }
+    }
+
+    public static int arrayMin(int[] data, int position){
+        if(position+1==data.length){
+            return data[position];
+        }
+        else{
+            int min = arrayMin(data,position+1);
+            if(min < data[position]){
+                return min;
+            }
+            else{
+                return data[position];
+            }
+        }
+    }
+
+    public static double computePyramidWeights(double [][] weights, int row, int column){
+        if(RowColValid(weights, row, column)) {
+            if (row < 0 || column < 0 || column >= weights[row].length) {
+                return 0.0;
+            }
+            return weights[row][column]
+                    + 0.5 * computePyramidWeights(weights, row-1, column)
+                    + 0.5 * computePyramidWeights(weights, row-1, column-1);
+            }
+            return 0.0;
+        }
+
+    public static boolean RowColValid(double [][] weights, int row, int column) {
+        return row >= 0 && column >= 0 && row < weights.length && column < weights[row].length;
+    }
+
+
+    static int howManyOrganisms(char[][] image)
+    {
+        int [][]dir={{-1,0},{1,0},{0,1},{0,-1}};
+        char replace='a';
+        int count=0;
+        for (int i=0;i<image.length;i++)
+        {
+            for (int j=0;j<image[i].length;j++)
+            {
+                if(image[i][j]=='*')
+                {
+                    image[i][j]=replace;
+                    recursive(image,dir,i,j,replace);
+                    count++;
+                    replace++;
+                }
+            }
+        }
+        return count;
+    }
+
+
+    static void recursive(char image[][],int [][] dir, int x,int y, char replace)
+    {
+        for(int i=0;i<4;i++)
+        {
+            int tempx=x+dir[i][0];
+            int tempy=y+dir[i][1];
+            if(tempx>=0 && tempx<image.length)
+            {
+                if(tempy>=0 && tempy<image[tempx].length)
+                {
+                    if(image[tempx][tempy]=='*')
+                    {
+                        image[tempx][tempy]=replace;
+                        recursive(image,dir,tempx,tempy,replace);
+                        }
+                    }
+                }
+            }
+        }
 }
